@@ -44,7 +44,7 @@ class OnBoardingWidgetBody extends StatelessWidget {
               ),
               const Spacer(),
               CustomSmoothPageIndicator(controller: controller),
-              const SizedBox(height: 24),
+              const SizedBox(height: 24),   
             ],
           );
         },
