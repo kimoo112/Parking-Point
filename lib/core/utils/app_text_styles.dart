@@ -15,6 +15,24 @@ abstract class CustomTextStyles {
     color: AppColors.primaryColor,
     fontFamily: "Open Sans",
   );
+    static final openSansBoldstyle20 = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+    color: AppColors.black,
+    fontFamily: "Open Sans",
+  );
+      static final openSansBoldstyle20Blue = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  color: AppColors.primaryColor,
+    fontFamily: "Open Sans",
+  );
+      static final openSans400style16Black = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: AppColors.black,
+    fontFamily: "Open Sans",
+  );
   static final montserrat400style16 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w400,
