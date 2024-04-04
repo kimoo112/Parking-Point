@@ -15,19 +15,19 @@ abstract class CustomTextStyles {
     color: AppColors.primaryColor,
     fontFamily: "Open Sans",
   );
-    static final openSansBoldstyle20 = TextStyle(
+  static final openSansBoldStyle20 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
     color: AppColors.black,
     fontFamily: "Open Sans",
   );
-      static final openSansBoldstyle20Blue = TextStyle(
+  static final openSansBoldStyle20Blue = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
-  color: AppColors.primaryColor,
+    color: AppColors.primaryColor,
     fontFamily: "Open Sans",
   );
-      static final openSans400style16Black = TextStyle(
+  static final openSans400style16Black = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: AppColors.black,
@@ -46,13 +46,13 @@ abstract class CustomTextStyles {
     color: AppColors.grey,
     fontFamily: "Open Sans",
   );
-    static final openSans400style14Grey = TextStyle(
+  static final openSans400style14Grey = TextStyle(
     fontSize: 16,
     letterSpacing: 1,
     color: AppColors.grey,
     fontFamily: "Open Sans",
   );
-    static final openSans400style16Blue = TextStyle(
+  static final openSans400style16Blue = TextStyle(
     fontSize: 16,
     letterSpacing: 1,
     fontWeight: FontWeight.bold,

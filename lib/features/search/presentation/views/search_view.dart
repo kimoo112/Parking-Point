@@ -37,12 +37,12 @@ class _SearchViewState extends State<SearchView> {
             },
             icon: Icons.search_off,
             hintText: 'Search here ...',
-            suffIcon: Icons.filter_list_rounded,
+            suffixIcon: Icons.filter_list_rounded,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Favoris (${searchedList.length})',
-                style: CustomTextStyles.openSansBoldstyle20Blue),
+            child: Text('Parking Points (${searchedList.length})',
+                style: CustomTextStyles.openSansBoldStyle20Blue),
           ),
           Expanded(
             child: ListView.builder(
@@ -54,7 +54,7 @@ class _SearchViewState extends State<SearchView> {
                       leading: Image.asset(Assets.imagesSearchImage),
                       title: Text(
                         searchedList[index].title,
-                        style: CustomTextStyles.openSansBoldstyle20,
+                        style: CustomTextStyles.openSansBoldStyle20,
                       ),
                       subtitle: Text(getSearchData[index].subTitle,
                           style: CustomTextStyles.openSans400style16Black),

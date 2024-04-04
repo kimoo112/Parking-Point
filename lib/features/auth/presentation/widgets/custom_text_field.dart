@@ -5,14 +5,14 @@ class CustomTextField extends StatelessWidget {
   final String? hintText;
   final TextEditingController? controller;
   final IconData? icon;
-  final IconData? suffIcon;
-final Function(String)? onChanged;
+  final IconData? suffixIcon;
+  final Function(String)? onChanged;
   const CustomTextField({
     Key? key,
     this.hintText,
     this.controller,
     this.icon,
-    this.suffIcon,
+    this.suffixIcon,
     this.onChanged,
   }) : super(key: key);
 
@@ -25,13 +25,13 @@ final Function(String)? onChanged;
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: TextField(
-        onChanged:onChanged ,
+        onChanged: onChanged,
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon,color: AppColors.darkGrey),
+          prefixIcon: Icon(icon, color: AppColors.darkGrey),
           hintStyle: TextStyle(color: AppColors.darkGrey),
           hintText: hintText,
-          suffixIcon: Icon(suffIcon,color: AppColors.darkGrey),
+          suffixIcon: Icon(suffixIcon, color: AppColors.darkGrey),
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           border: InputBorder.none,
