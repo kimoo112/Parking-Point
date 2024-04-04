@@ -1,6 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:parking_app/core/utils/app_colors.dart';
+import 'package:parking_app/core/widgets/custom_btn.dart';
 
 class TimerView extends StatefulWidget {
   const TimerView({Key? key}) : super(key: key);
@@ -72,6 +73,14 @@ class _TimerViewState extends State<TimerView> {
               },
             ),
           ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CustomBtn(
+              text: 'Restart',
+              onPressed: () => _controller.reset(),
+            ),
+          )
         ],
       ),
     ));
