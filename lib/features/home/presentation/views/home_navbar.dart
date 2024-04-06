@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_app/features/home/presentation/views/home_view.dart';
+import 'package:parking_app/features/profile/presentation/views/profile_view.dart';
 import 'package:parking_app/features/search/presentation/views/search_view.dart';
 import 'package:parking_app/features/timer/presentation/views/timer_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -39,7 +40,7 @@ List<Widget> _buildScreens() {
     const HomeView(),
     const SearchView(),
     const TimerView(),
-    const HomeView(),
+    const ProfileView(),
   ];
 }
 

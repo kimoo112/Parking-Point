@@ -3,6 +3,7 @@ import 'package:parking_app/core/utils/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? hintText;
+  final bool isHavePrefix ;
   final TextEditingController? controller;
   final IconData? icon;
   final IconData? suffixIcon;
@@ -13,7 +14,7 @@ class CustomTextField extends StatelessWidget {
     this.controller,
     this.icon,
     this.suffixIcon,
-    this.onChanged,
+    this.onChanged, this.isHavePrefix= true,
   }) : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class CustomTextField extends StatelessWidget {
         onChanged: onChanged,
         controller: controller,
         decoration: InputDecoration(
-          prefixIcon: Icon(icon, color: AppColors.darkGrey),
+          prefixIcon:isHavePrefix? Icon(icon, color: AppColors.darkGrey):null,
           hintStyle: TextStyle(color: AppColors.darkGrey),
           hintText: hintText,
           suffixIcon: Icon(suffixIcon, color: AppColors.darkGrey),
