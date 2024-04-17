@@ -6,6 +6,7 @@ import 'package:parking_app/core/widgets/custom_btn.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/utils/app_colors.dart';
+import '../widgets/payment_container.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -69,6 +70,18 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       children: [
                         openTileLayer,
+                        PolylineLayer(
+                          polylines: [
+                            Polyline(
+                              points: [
+                                LatLng(_latitude!, _longitude!),
+                                LatLng(_latitude!, _longitude! + .1),
+                                LatLng(_latitude!, _longitude! + .2),
+                              ],
+                              color: Colors.blue,
+                            ),
+                          ],
+                        ),
                         MarkerLayer(
                           markers: [
                             Marker(
@@ -87,10 +100,20 @@ class _HomeViewState extends State<HomeView> {
                               width: 80,
                               height: 80,
                               alignment: Alignment.centerLeft,
-                              child: const Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.blue,
-                                size: 60,
+                              child: IconButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return const PaymentContainer();
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.location_on_outlined,
+                                  color: Colors.blue,
+                                  size: 60,
+                                ),
                               ),
                             ),
                             Marker(
@@ -98,10 +121,20 @@ class _HomeViewState extends State<HomeView> {
                               width: 80,
                               height: 80,
                               alignment: Alignment.centerLeft,
-                              child: const Icon(
-                                Icons.location_on_outlined,
-                                color: Colors.blue,
-                                size: 60,
+                              child: IconButton(
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return const PaymentContainer();
+                                    },
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.location_on_outlined,
+                                  color: Colors.blue,
+                                  size: 60,
+                                ),
                               ),
                             ),
                           ],
