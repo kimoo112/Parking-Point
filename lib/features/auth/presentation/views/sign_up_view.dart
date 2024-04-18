@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parking_app/core/functions/navigation.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
 import 'package:parking_app/core/widgets/custom_btn.dart';
 import 'package:parking_app/features/auth/presentation/widgets/custom_text_field.dart';
@@ -57,7 +58,7 @@ class SignUpView extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    customNavigate(context, '/signInView');
+                    customNavigate(context, signInView);
                   },
                   child: Text(
                     style: CustomTextStyles.openSans400style16Blue,

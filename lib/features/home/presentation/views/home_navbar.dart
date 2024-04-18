@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parking_app/features/floors/presentation/views/floors_view.dart';
 import 'package:parking_app/features/home/presentation/views/home_view.dart';
 import 'package:parking_app/features/profile/presentation/views/profile_view.dart';
 import 'package:parking_app/features/search/presentation/views/search_view.dart';
@@ -40,6 +41,7 @@ List<Widget> _buildScreens() {
     const HomeView(),
     const SearchView(),
     const TimerView(),
+    const FloorsView(),
     const ProfileView(),
   ];
 }
@@ -68,6 +70,13 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
       ),
     ),
     PersistentBottomNavBarItem(
+      icon: const Icon(Icons.edit_road_outlined),
+      inactiveIcon: Icon(
+        Icons.edit_road_outlined,
+        color: AppColors.darkGrey,
+      ),
+    ),
+     PersistentBottomNavBarItem(
       icon: const Icon(Icons.person),
       inactiveIcon: Icon(
         Icons.person,
