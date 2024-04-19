@@ -5,6 +5,10 @@ class Assets {
   /// assets/images/app_logo.png
   static const String imagesAppLogo = "assets/images/app_logo.png";
 
+  /// Assets for imagesFloorCar
+  /// assets/images/floor_car.png
+  static const String imagesFloorCar = "assets/images/floor_car.png";
+
   /// Assets for imagesOnboarding1
   /// assets/images/onboarding_1.png
   static const String imagesOnboarding1 = "assets/images/onboarding_1.png";
@@ -16,6 +20,10 @@ class Assets {
   /// Assets for imagesOnboarding3
   /// assets/images/onboarding_3.png
   static const String imagesOnboarding3 = "assets/images/onboarding_3.png";
+
+  /// Assets for imagesPaypalLogo
+  /// assets/images/paypal_logo.png
+  static const String imagesPaypalLogo = "assets/images/paypal_logo.png";
 
   /// Assets for imagesProfilePicture
   /// assets/images/profile_picture.png

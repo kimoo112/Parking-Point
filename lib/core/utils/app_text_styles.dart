@@ -21,6 +21,12 @@ abstract class CustomTextStyles {
     color: AppColors.black,
     fontFamily: "Open Sans",
   );
+  static final openSansBoldStyle40 = TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.bold,
+    color: AppColors.black,
+    fontFamily: "Open Sans",
+  );
   static final openSansBoldStyle16 = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -33,7 +39,7 @@ abstract class CustomTextStyles {
     color: AppColors.primaryColor,
     fontFamily: "Open Sans",
   );
-   static final openSansBoldStyle16Blue = TextStyle(
+  static final openSansBoldStyle16Blue = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryColor,
@@ -51,7 +57,7 @@ abstract class CustomTextStyles {
     color: AppColors.primaryColor,
     fontFamily: "Open Sans",
   );
-   static final openSansBoldStyle12Grey = TextStyle(
+  static final openSansBoldStyle12Grey = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.bold,
     color: AppColors.darkGrey,
@@ -79,6 +85,13 @@ abstract class CustomTextStyles {
   );
   static final openSans400style16Blue = TextStyle(
     fontSize: 16,
+    letterSpacing: 1,
+    fontWeight: FontWeight.bold,
+    color: AppColors.primaryColor,
+    fontFamily: "Open Sans",
+  );
+  static final openSans400style24Blue = TextStyle(
+    fontSize: 24,
     letterSpacing: 1,
     fontWeight: FontWeight.bold,
     color: AppColors.primaryColor,
