@@ -9,8 +9,16 @@ import 'package:parking_app/features/auth/presentation/widgets/custom_text_field
 
 import '../widgets/custom_check_box.dart';
 
-class SignUpView extends StatelessWidget {
+class SignUpView extends StatefulWidget {
   const SignUpView({Key? key}) : super(key: key);
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
+  GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
@@ -29,78 +37,85 @@ class SignUpView extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Sign Up'),
             ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomTextField(
-                  hintText: 'Name',
-                  controller: context.read<AuthCubit>().signUpName,
-                  icon: Icons.person,
-                ),
-                CustomTextField(
-                  controller: context.read<AuthCubit>().signUpEmail,
-                  hintText: 'Email',
-                  keyboardType: TextInputType.emailAddress,
-                  icon: Icons.email_rounded,
-                ),
-                CustomTextField(
-                  controller: context.read<AuthCubit>().signUpPhone,
-                  hintText: 'Phone',
-                  keyboardType: TextInputType.phone,
-                  icon: Icons.phone,
-                ),
-                CustomTextField(
-                  controller: context.read<AuthCubit>().signUpCarNumber,
-                  hintText: 'Car Number',
-                  icon: Icons.car_repair,
-                ),
-                CustomTextField(
-                  controller: context.read<AuthCubit>().signUpAge,
-                  hintText: 'Age',
-                  keyboardType: TextInputType.number,
-                  icon: Icons.car_repair,
-                ),
-                CustomTextField(
-                  controller: context.read<AuthCubit>().signUpPassword,
-                  hintText: 'Password',
-                  icon: Icons.lock,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const CustomCheckBox(),
-                    Text(
-                      'Remember Me',
-                      style: CustomTextStyles.openSans400style16Blue,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                CustomBtn(
-                    text: 'To Register',
-                    onPressed: () {
-                      context.read<AuthCubit>().signUp(context);
-                    }),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Already have an account?',
-                      style: CustomTextStyles.openSans400style14Grey,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        customNavigate(context, signInView);
-                      },
-                      child: Text(
+            body: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomTextField(
+                    hintText: 'Name',
+                    controller: context.read<AuthCubit>().signUpName,
+                    icon: Icons.person,
+                  ),
+                  CustomTextField(
+                    controller: context.read<AuthCubit>().signUpEmail,
+                    hintText: 'Email',
+                    keyboardType: TextInputType.emailAddress,
+                    icon: Icons.email_rounded,
+                  ),
+                  CustomTextField(
+                    controller: context.read<AuthCubit>().signUpPhone,
+                    hintText: 'Phone',
+                    keyboardType: TextInputType.phone,
+                    icon: Icons.phone,
+                  ),
+                  CustomTextField(
+                    controller: context.read<AuthCubit>().signUpCarNumber,
+                    hintText: 'Car Number',
+                    icon: Icons.car_repair,
+                  ),
+                  CustomTextField(
+                    controller: context.read<AuthCubit>().signUpAge,
+                    hintText: 'Age',
+                    keyboardType: TextInputType.number,
+                    icon: Icons.car_repair,
+                  ),
+                  CustomTextField(
+                    controller: context.read<AuthCubit>().signUpPassword,
+                    hintText: 'Password',
+                    icon: Icons.lock,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const CustomCheckBox(),
+                      Text(
+                        'Remember Me',
                         style: CustomTextStyles.openSans400style16Blue,
-                        "Sign In",
                       ),
-                    ),
-                  ],
-                )
-              ],
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  state is SignUpLoading
+                      ? const CircularProgressIndicator()
+                      : CustomBtn(
+                          text: 'To Register',
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              context.read<AuthCubit>().signUp(context);
+                            }
+                          }),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Already have an account?',
+                        style: CustomTextStyles.openSans400style14Grey,
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          customNavigate(context, signInView);
+                        },
+                        child: Text(
+                          style: CustomTextStyles.openSans400style16Blue,
+                          "Sign In",
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ));
       },
     );
