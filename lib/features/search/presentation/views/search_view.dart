@@ -37,7 +37,7 @@ class _SearchViewState extends State<SearchView> {
             },
             icon: Icons.search_off,
             hintText: 'Search here ...',
-            suffixIcon: Icons.filter_list_rounded,
+            suffixIcon: const Icon(Icons.filter_list_rounded),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),

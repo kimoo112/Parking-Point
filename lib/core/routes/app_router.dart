@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:parking_app/core/cache/cache_helper.dart';
 import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/features/auth/presentation/views/sign_up_view.dart';
 import 'package:parking_app/features/floors/presentation/views/floors_view.dart';
@@ -16,7 +17,8 @@ import '../../features/splash/presentation/views/splash_view.dart';
 final GoRouter router = GoRouter(
   routes: [
     GoRoute(
-      path: splashView,
+      path:
+          CacheHelper().getDataString(key: "token") == null ? '/' : splashView,
       builder: (context, state) => const SplashView(),
     ),
     GoRoute(
@@ -36,7 +38,8 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const HomeView(),
     ),
     GoRoute(
-      path: homeNavbar,
+      path:
+          CacheHelper().getDataString(key: "token") != null ? '/' : splashView,
       builder: (context, state) => const HomeNavBarWidget(),
     ),
     GoRoute(
