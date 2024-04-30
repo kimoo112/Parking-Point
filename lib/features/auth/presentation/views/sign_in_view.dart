@@ -15,6 +15,51 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> {
   GlobalKey<FormState> formKey = GlobalKey();
   bool obscureText = true;
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    }
+
+    // List of special characters
+    List<String> specialCharacters = [
+      '!',
+      '@',
+      '#',
+      '\$',
+      '%',
+      '^',
+      '&',
+      '*',
+      '(',
+      ')',
+      '_',
+      '+',
+      '{',
+      '}',
+      '|',
+      ':',
+      '<',
+      '>',
+      '?',
+      '~',
+      '-'
+    ];
+
+    bool hasSpecialChar = false;
+    for (var char in value.split('')) {
+      if (specialCharacters.contains(char)) {
+        hasSpecialChar = true;
+        break;
+      }
+    }
+
+    if (!hasSpecialChar) {
+      return 'Password must contain at least one special character';
+    }
+
+    return null; // Password is valid
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
@@ -22,11 +67,6 @@ class _SignInViewState extends State<SignInView> {
         if (state is SignInSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Success'),
-          ));
-        }
-        if (state is SignInFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(state.errMessage),
           ));
         }
       },
@@ -50,6 +90,7 @@ class _SignInViewState extends State<SignInView> {
                     controller: context.read<AuthCubit>().signInPassword,
                     icon: Icons.lock,
                     obscureText: obscureText,
+                    validator: validatePassword,
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {

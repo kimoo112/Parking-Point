@@ -56,7 +56,7 @@ class AuthCubit extends Cubit<AuthState> {
         ApiKeys.password: signInPassword.text,
       });
       final user = SignInModel.fromJson(response);
-      CacheHelper().saveData(key: ApiKeys.token, value: user.token);
+      await CacheHelper().saveData(key: ApiKeys.token, value: user.token);
 
       emit(SignInSuccess());
       GoRouter.of(context).pushReplacement(homeNavbar);

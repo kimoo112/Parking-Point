@@ -50,6 +50,12 @@ class _FloorsViewState extends State<FloorsView>
             _floorParking(),
             _floorParking('A09'),
             _floorParking('A11'),
+            _floorParking('A13'),
+            _floorParking('A15'),
+            _floorParking(null , 'A16'),
+            _floorParking('A17'),
+            _floorParking('A19'),
+            _floorParking('A21'),
           ],
         ),
       ),
@@ -66,22 +72,27 @@ class _FloorsViewState extends State<FloorsView>
             firstFloorName == null
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(Assets.imagesFloorCar),
+                    child: SizedBox(
+                        width: 111,
+                      height: 50,child: Image.asset(Assets.imagesFloorCar)),
                   )
-                : Container(
-                    width: 111,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withOpacity(.2),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            width: 2, color: AppColors.primaryColor)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      firstFloorName ,
-                      style: CustomTextStyles.openSansBoldStyle16,
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      width: 111,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                              width: 2, color: AppColors.primaryColor)),
+                      alignment: Alignment.center,
+                      child: Text(
+                        firstFloorName ,
+                        style: CustomTextStyles.openSansBoldStyle16,
+                      ),
                     ),
-                  ),
+                ),
             Container(
               height: 100,
               decoration: BoxDecoration(
@@ -90,22 +101,27 @@ class _FloorsViewState extends State<FloorsView>
             secondFloorName == null
                 ? Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Image.asset(Assets.imagesFloorCar),
+                    child: SizedBox(
+                         width: 111,
+                      height: 50,child: Image.asset(Assets.imagesFloorCar)),
                   )
-                : Container(
-                    width: 111,
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: AppColors.primaryColor.withOpacity(.2),
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            width: 2, color: AppColors.primaryColor)),
-                    alignment: Alignment.center,
-                    child: Text(
-                      secondFloorName ,
-                      style: CustomTextStyles.openSansBoldStyle16,
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                      width: 111,
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: AppColors.primaryColor.withOpacity(.2),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                              width: 2, color: AppColors.primaryColor)),
+                      alignment: Alignment.center,
+                      child: Text(
+                        secondFloorName ,
+                        style: CustomTextStyles.openSansBoldStyle16,
+                      ),
                     ),
-                  ),
+                ),
           ],
         ),
       ],
