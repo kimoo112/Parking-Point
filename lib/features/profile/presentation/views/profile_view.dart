@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_assets.dart';
 import 'package:parking_app/core/utils/app_colors.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
-import 'package:parking_app/features/auth/presentation/widgets/custom_text_field.dart';
+import 'package:parking_app/core/widgets/custom_btn.dart';
 
 import '../../../../core/api/end_ponits.dart';
 import '../../../../core/cache/cache_helper.dart';
@@ -14,13 +17,14 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          scrolledUnderElevation: 0,
           title: Text(
-        'My Profile',
-        style: CustomTextStyles.openSansBoldStyle20,
-      )),
-      body: SizedBox(
-        width: double.infinity,
+            'My Profile',
+            style: CustomTextStyles.openSansBoldStyle20,
+          )),
+      body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Stack(
@@ -32,9 +36,7 @@ class ProfileView extends StatelessWidget {
                 ),
                 FloatingActionButton(
                   backgroundColor: AppColors.primaryColor,
-                  onPressed: () async{
-                    await CacheHelper().removeData(key: ApiKeys.token);
-                  },
+                  onPressed: () {},
                   mini: true,
                   child: Icon(
                     Icons.edit,
@@ -44,31 +46,87 @@ class ProfileView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const CustomTextField(
-              isHavePrefix: false,
-              suffixIcon: Icon(Icons.person_3_sharp),
-              hintText: 'First Name',
+            Text(
+              'My Name ',
+              style: CustomTextStyles.openSansBoldStyle20,
             ),
-            const CustomTextField(
-              isHavePrefix: false,
-              suffixIcon: Icon(Icons.person_3_sharp),
-              hintText: 'Last Name',
+            Text(
+              '${CacheHelper().getDataString(key: ApiKeys.name)}',
+              style: CustomTextStyles.openSansBoldStyle20Blue,
             ),
-            const CustomTextField(
-              isHavePrefix: false,
-              suffixIcon: Icon(Icons.date_range_rounded),
-              hintText: 'Date Of Birth',
+            const Divider(),
+            Text(
+              'My Email ',
+              style: CustomTextStyles.openSansBoldStyle20,
             ),
-            const CustomTextField(
-              isHavePrefix: false,
-              suffixIcon: Icon(Icons.email),
-              hintText: 'Email',
+            Text(
+              '${CacheHelper().getDataString(key: ApiKeys.email)}',
+              style: CustomTextStyles.openSansBoldStyle20Blue,
             ),
-            const CustomTextField(
-              isHavePrefix: false,
-              suffixIcon: Icon(Icons.phone),
-              hintText: 'Phone Number',
-            ),
+            CustomBtn(
+                text: 'Logout'.toUpperCase(),
+                borderRadius: 15,
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          backgroundColor: Colors.white,
+                          actionsAlignment: MainAxisAlignment.spaceAround,
+                          title: Center(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              Icon(
+                                CupertinoIcons.power,
+                                color: AppColors.primaryColor,
+                                size: 70,
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Are you sure to log out of your account?',
+                                style: CustomTextStyles.openSans400style24,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
+                          )),
+                          actions: <Widget>[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 40),
+                              child: CustomBtn(
+                                text: 'Log Out',
+                                onPressed: () {
+                                  CacheHelper()
+                                      .removeData(key: ApiKeys.token);
+                                  GoRouter.of(context)
+                                      .pushReplacement(signInView);
+                                },
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 40),
+                              child: CustomBtn(
+                                color: AppColors.black,
+                                text: 'Cancel',
+                                onPressed: () {
+                                  GoRouter.of(context).pop();
+                                },
+                              ),
+                            )
+                          ],
+                        );
+                      });
+                })
           ],
         ),
       ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
 import 'package:parking_app/core/widgets/custom_btn.dart';
 import 'package:parking_app/features/auth/cubit/auth_cubit.dart';
 import 'package:parking_app/features/auth/presentation/widgets/custom_text_field.dart';
+
+import '../../../../core/functions/navigation.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({Key? key}) : super(key: key);
@@ -107,11 +110,20 @@ class _SignInViewState extends State<SignInView> {
                       ? const CircularProgressIndicator()
                       : CustomBtn(
                           text: 'SignIn'.toUpperCase(),
-                          onPressed: () {
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              context.read<AuthCubit>().signIn(context);
+                              await context.read<AuthCubit>().signIn(context);
                             }
                           }),
+                  TextButton(
+                    onPressed: () {
+                      customReplacementNavigate(context, signUpView);
+                    },
+                    child: Text(
+                      "SignUp Now",
+                      style: CustomTextStyles.openSans400style16Blue,
+                    ),
+                  ),
                   const SizedBox(height: 20),
                   Text(
                     'Forgot Password ?',

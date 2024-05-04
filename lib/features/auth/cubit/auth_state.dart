@@ -15,6 +15,7 @@ final class SignUpFailure extends AuthState {
   SignUpFailure({required this.errMessage});
 }
 
+final class GetCarNumberSuccessfully extends AuthState {}
 final class SignInLoading extends AuthState {}
 
 final class SignInSuccess extends AuthState {}

@@ -1,7 +1,9 @@
 class EndPoint {
   static String baseUrl = "http://www.parking.somee.com/api/";
   static String signIn = "accounts/login";
+  static String carNumber = "Accounts/carnumber";
   static String register = "accounts/register";
+  static String garages = "Garages";
 
 }
 

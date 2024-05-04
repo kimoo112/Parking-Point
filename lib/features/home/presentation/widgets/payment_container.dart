@@ -7,9 +7,10 @@ import 'package:parking_app/core/widgets/custom_btn.dart';
 
 class PaymentContainer extends StatelessWidget {
   const PaymentContainer({
-    super.key,
+    super.key, this.parkingName, this.hourPrice,
   });
-
+  final String? parkingName;
+  final double? hourPrice;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,10 +25,10 @@ class PaymentContainer extends StatelessWidget {
               children: <Widget>[
                 Text('Underground parking',
                     style: CustomTextStyles.openSansBoldStyle12Blue),
-                Text('15\$/h', style: CustomTextStyles.openSansBoldStyle16Blue)
+                Text('$hourPrice \$/h', style: CustomTextStyles.openSansBoldStyle16Blue)
               ],
             ),
-            Text('Indigo Parking', style: CustomTextStyles.openSansBoldStyle16),
+            Text(parkingName??'Indigo Parking', style: CustomTextStyles.openSansBoldStyle16),
             const SizedBox(height: 10),
             Row(
               children: [
@@ -73,10 +74,7 @@ class PaymentContainer extends StatelessWidget {
             const SizedBox(height: 10),
             _priceWeakWidget(),
             const SizedBox(height: 10),
-            Text('Tarif - fin de semaine',
-                style: CustomTextStyles.openSansBoldStyle16),
-            const SizedBox(height: 10),
-            _priceWeakWidget(),
+         
             const SizedBox(height: 22),
             CustomBtn(
               text: 'Pay Now'.toUpperCase(),

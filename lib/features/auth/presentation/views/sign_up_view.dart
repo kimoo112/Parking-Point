@@ -18,31 +18,53 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   GlobalKey<FormState> formKey = GlobalKey();
-String? validatePassword(String? value) {
-  if (value == null || value.isEmpty) {
-    return 'Password is required';
-  }
+  bool obscureText = true;
 
-  // List of special characters
-  List<String> specialCharacters = [
-    '!', '@', '#', '\$', '%', '^', '&', '*', '(', ')', '_', '+', '{', '}',
-    '|', ':', '<', '>', '?', '~', '-'
-  ];
-
-  bool hasSpecialChar = false;
-  for (var char in value.split('')) {
-    if (specialCharacters.contains(char)) {
-      hasSpecialChar = true;
-      break;
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
     }
+
+    // List of special characters
+    List<String> specialCharacters = [
+      '!',
+      '@',
+      '#',
+      '\$',
+      '%',
+      '^',
+      '&',
+      '*',
+      '(',
+      ')',
+      '_',
+      '+',
+      '{',
+      '}',
+      '|',
+      ':',
+      '<',
+      '>',
+      '?',
+      '~',
+      '-'
+    ];
+
+    bool hasSpecialChar = false;
+    for (var char in value.split('')) {
+      if (specialCharacters.contains(char)) {
+        hasSpecialChar = true;
+        break;
+      }
+    }
+
+    if (!hasSpecialChar) {
+      return 'Password must contain at least one special character';
+    }
+
+    return null; // Password is valid
   }
 
-  if (!hasSpecialChar) {
-    return 'Password must contain at least one special character';
-  }
-
-  return null; // Password is valid
-}
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
@@ -93,12 +115,23 @@ String? validatePassword(String? value) {
                       controller: context.read<AuthCubit>().signUpAge,
                       hintText: 'Age',
                       keyboardType: TextInputType.number,
-                      icon: Icons.car_repair,
+                      icon: Icons.numbers_sharp,
                     ),
                     CustomTextField(
                       controller: context.read<AuthCubit>().signUpPassword,
                       hintText: 'Password',
-                      validator:  validatePassword,
+                      validator: validatePassword,
+                      obscureText: obscureText,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            obscureText = !obscureText;
+                          });
+                        },
+                        icon: Icon(obscureText
+                            ? Icons.visibility
+                            : Icons.visibility_off),
+                      ),
                       icon: Icons.lock,
                     ),
                     Row(
@@ -131,7 +164,8 @@ String? validatePassword(String? value) {
                         ),
                         TextButton(
                           onPressed: () {
-                            customNavigate(context, signInView);
+                                                customReplacementNavigate(context, signInView);
+
                           },
                           child: Text(
                             style: CustomTextStyles.openSans400style16Blue,

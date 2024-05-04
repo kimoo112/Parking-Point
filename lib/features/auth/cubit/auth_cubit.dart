@@ -13,7 +13,7 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit(this.api) : super(AuthInitial());
   final ApiConsumer api;
-
+  String carNumber = '';
   TextEditingController signUpName = TextEditingController();
   //Sign up phone number
   TextEditingController signUpPhoneNumber = TextEditingController();
@@ -29,19 +29,38 @@ class AuthCubit extends Cubit<AuthState> {
   signUp(context) async {
     emit(SignUpLoading());
     try {
-      final response =
-          await api.post('${EndPoint.baseUrl}${EndPoint.register}', data: {
-        ApiKeys.name: signUpName.text,
-        ApiKeys.age: signUpAge.text,
-        ApiKeys.carNumber: signUpCarNumber.text,
-        ApiKeys.phone: signUpPhone.text,
-        ApiKeys.email: signUpEmail.text,
-        ApiKeys.password: signUpPassword.text
-      });
+      final response = await api.post(
+        '${EndPoint.baseUrl}${EndPoint.register}',
+        data: {
+          ApiKeys.name: signUpName.text,
+          ApiKeys.age: signUpAge.text,
+          ApiKeys.carNumber: signUpCarNumber.text,
+          ApiKeys.phone: signUpPhone.text,
+          ApiKeys.email: signUpEmail.text,
+          ApiKeys.password: signUpPassword.text
+        },
+      );
 
-      emit(SignUpSuccess());
-      GoRouter.of(context).pushReplacement(signInView);
-      debugPrint(response.data);
+      if (response.statusCode == 200) {
+        emit(SignUpSuccess());
+        GoRouter.of(context).pushReplacement(signInView);
+        debugPrint(response.data);
+      } else {
+        if (response.statusCode == 400) {
+          final responseData = response.data;
+          if (responseData['message'] == "A bad Request, You Have Made") {
+            emit(SignUpFailure(errMessage: 'Invalid email'));
+          } else if (responseData['message'] == 'Email already taken') {
+            emit(SignUpFailure(errMessage: 'Email already taken'));
+          } else {
+            emit(SignUpFailure(
+                errMessage: 'An error occurred. Please try again later.'));
+          }
+        } else {
+          emit(SignUpFailure(
+              errMessage: 'An error occurred. Please try again later.'));
+        }
+      }
     } catch (e) {
       emit(SignUpFailure(errMessage: e.toString()));
     }
@@ -57,12 +76,20 @@ class AuthCubit extends Cubit<AuthState> {
       });
       final user = SignInModel.fromJson(response);
       await CacheHelper().saveData(key: ApiKeys.token, value: user.token);
-
       emit(SignInSuccess());
+      CacheHelper().saveData(key: ApiKeys.email, value: user.email);
+      CacheHelper().saveData(key: ApiKeys.name, value: user.displayName);
       GoRouter.of(context).pushReplacement(homeNavbar);
       debugPrint(response.data);
     } catch (e) {
       emit(SignInFailure(errMessage: e.toString()));
     }
+  }
+
+  getCarNumber() async {
+    final response =
+        await api.get('${EndPoint.baseUrl}${EndPoint.carNumber}', headers: {
+      'Token': 'Bearer ${CacheHelper().getData(key: ApiKeys.token)}',
+    });
   }
 }
