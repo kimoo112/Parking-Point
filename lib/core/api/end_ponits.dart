@@ -16,7 +16,6 @@ class ApiKeys {
   static String message = "message";
   static String name = "displayName";
   static String phone = "phoneNumber";
-  static String location = "patient_city";
   static String carNumber = "carNumber";
   static String age = "age";
 }

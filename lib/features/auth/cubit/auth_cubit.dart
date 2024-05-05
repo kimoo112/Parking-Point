@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_consumer.dart';
 import '../../../core/api/end_ponits.dart';
 import '../../../core/cache/cache_helper.dart';
-import '../../../core/routes/routes.dart';
 import '../models/sign_in_model.dart';
 
 part 'auth_state.dart';
@@ -41,28 +39,11 @@ class AuthCubit extends Cubit<AuthState> {
         },
       );
 
-      if (response.statusCode == 200) {
-        emit(SignUpSuccess());
-        GoRouter.of(context).pushReplacement(signInView);
-        debugPrint(response.data);
-      } else {
-        if (response.statusCode == 400) {
-          final responseData = response.data;
-          if (responseData['message'] == "A bad Request, You Have Made") {
-            emit(SignUpFailure(errMessage: 'Invalid email'));
-          } else if (responseData['message'] == 'Email already taken') {
-            emit(SignUpFailure(errMessage: 'Email already taken'));
-          } else {
-            emit(SignUpFailure(
-                errMessage: 'An error occurred. Please try again later.'));
-          }
-        } else {
-          emit(SignUpFailure(
-              errMessage: 'An error occurred. Please try again later.'));
-        }
-      }
+      emit(SignUpSuccess());
+      signUpName.clear();
     } catch (e) {
-      emit(SignUpFailure(errMessage: e.toString()));
+      debugPrint(e.toString());
+      emit(SignUpFailure(errMessage: "Check The Fields Again "));
     }
   }
 
@@ -79,10 +60,9 @@ class AuthCubit extends Cubit<AuthState> {
       emit(SignInSuccess());
       CacheHelper().saveData(key: ApiKeys.email, value: user.email);
       CacheHelper().saveData(key: ApiKeys.name, value: user.displayName);
-      GoRouter.of(context).pushReplacement(homeNavbar);
       debugPrint(response.data);
     } catch (e) {
-      emit(SignInFailure(errMessage: e.toString()));
+      emit(SignInFailure(errMessage: "Check The Fields Again "));
     }
   }
 

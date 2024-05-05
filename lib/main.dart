@@ -7,10 +7,12 @@ import 'package:parking_app/features/auth/cubit/auth_cubit.dart';
 import 'package:parking_app/features/home/data/cubit/garages_cubit.dart';
 
 import 'core/routes/app_router.dart';
+import 'core/utils/bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper().init();
+  Bloc.observer = MyBlocObserver();
   runApp(const ParkingApp());
 }
 

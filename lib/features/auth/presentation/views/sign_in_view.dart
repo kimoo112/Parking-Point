@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
 import 'package:parking_app/core/widgets/custom_btn.dart';
@@ -71,6 +72,14 @@ class _SignInViewState extends State<SignInView> {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text('Success'),
           ));
+          context.read<AuthCubit>().signInEmail.clear();
+          context.read<AuthCubit>().signInPassword.clear();
+          GoRouter.of(context).pushReplacement(homeNavbar);
+        }
+        else if (state is SignInFailure){
+          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+            content: Text(state.errMessage),
+          ));
         }
       },
       builder: (context, state) {
@@ -86,6 +95,16 @@ class _SignInViewState extends State<SignInView> {
                   CustomTextField(
                     controller: context.read<AuthCubit>().signInEmail,
                     hintText: 'Email',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email address';
+                      } else if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
                     icon: Icons.email_rounded,
                   ),
                   CustomTextField(
@@ -118,6 +137,8 @@ class _SignInViewState extends State<SignInView> {
                   TextButton(
                     onPressed: () {
                       customReplacementNavigate(context, signUpView);
+                      context.read<AuthCubit>().signInEmail.clear();
+                      context.read<AuthCubit>().signInPassword.clear();
                     },
                     child: Text(
                       "SignUp Now",
