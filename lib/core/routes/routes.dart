@@ -5,8 +5,8 @@ const paymentView = "/paymentView";
 const paymentSuccessView = "/paymentSuccessView";
 
 const timerView = "/timerView";
-const homeNavbar =  "/homeNavbar";
+const homeNavbar = "/homeNavbar";
 const signInView = "/signInView";
-const signUpView =  "/signUpView";
-const onBoarding =  "/onBoarding";
-const splashView =  "/splashView";
+const signUpView = "/signUpView";
+const onBoarding = "/onBoarding";
+const splashView = "/splashView";

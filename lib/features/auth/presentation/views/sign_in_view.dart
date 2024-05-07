@@ -61,7 +61,7 @@ class _SignInViewState extends State<SignInView> {
       return 'Password must contain at least one special character';
     }
 
-    return null; // Password is valid
+    return null;
   }
 
   @override
@@ -75,9 +75,8 @@ class _SignInViewState extends State<SignInView> {
           context.read<AuthCubit>().signInEmail.clear();
           context.read<AuthCubit>().signInPassword.clear();
           GoRouter.of(context).pushReplacement(homeNavbar);
-        }
-        else if (state is SignInFailure){
-          ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+        } else if (state is SignInFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(state.errMessage),
           ));
         }

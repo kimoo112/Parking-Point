@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/api/api_consumer.dart';
-import '../../../core/api/end_ponits.dart';
+import '../../../core/api/end_points.dart';
 import '../../../core/cache/cache_helper.dart';
 import '../models/sign_in_model.dart';
 
@@ -64,12 +64,5 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(SignInFailure(errMessage: "Check The Fields Again "));
     }
-  }
-
-  getCarNumber() async {
-    final response =
-        await api.get('${EndPoint.baseUrl}${EndPoint.carNumber}', headers: {
-      'Token': 'Bearer ${CacheHelper().getData(key: ApiKeys.token)}',
-    });
   }
 }

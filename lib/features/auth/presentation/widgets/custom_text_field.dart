@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
-  final bool? obscureText ;
+  final bool? obscureText;
   const CustomTextField({
     Key? key,
     this.hintText,

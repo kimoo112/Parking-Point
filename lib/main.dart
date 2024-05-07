@@ -8,6 +8,7 @@ import 'package:parking_app/features/home/data/cubit/garages_cubit.dart';
 
 import 'core/routes/app_router.dart';
 import 'core/utils/bloc_observer.dart';
+import 'features/floors/data/cubit/pakyas_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ class ParkingApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GaragesCubit(DioConsumer(dio: Dio())),
         ),
+        BlocProvider(
+          create: (context) => PakyasCubit(DioConsumer(dio: Dio())),
+        )
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

@@ -10,7 +10,8 @@ class CustomBtn extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.marginSize,
-    this.textColor, this.borderRadius,
+    this.textColor,
+    this.borderRadius,
   }) : super(key: key);
 
   final Color? color;
@@ -30,7 +31,7 @@ class CustomBtn extends StatelessWidget {
         height: 56,
         decoration: BoxDecoration(
           color: color ?? AppColors.primaryColor,
-          borderRadius: BorderRadius.circular(borderRadius ??55),
+          borderRadius: BorderRadius.circular(borderRadius ?? 55),
         ),
         alignment: Alignment.center,
         child: Text(

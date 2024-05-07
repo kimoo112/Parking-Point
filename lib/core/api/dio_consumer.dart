@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:parking_app/core/api/end_ponits.dart';
+import 'package:parking_app/core/api/end_points.dart';
 import 'package:parking_app/core/api/exceptions.dart';
 
 import 'api_consumer.dart';
 import 'api_interceptors.dart';
-
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;
@@ -12,6 +11,22 @@ class DioConsumer extends ApiConsumer {
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoint.baseUrl;
     dio.interceptors.add(ApiInterceptor());
+    dio.interceptors.add(InterceptorsWrapper(
+  onResponse: (response, handler) {
+    if (response.statusCode == 307) {
+      // Extract the new URL from the response headers and resend the request
+      String? newUrl = response.headers.value('location');
+      // Resend the request to the new URL
+      dio.get(newUrl!).then((newResponse) {
+        handler.resolve(newResponse);
+      }).catchError((error) {
+        handler.reject(error);
+      });
+      return ; // Prevent the response from being processed further
+    }
+    return handler.next(response);
+  },
+));
     dio.interceptors.add(LogInterceptor(
       request: true,
       requestHeader: true,

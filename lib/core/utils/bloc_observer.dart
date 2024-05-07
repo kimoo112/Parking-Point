@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+
 class MyBlocObserver extends BlocObserver {
   @override
   void onCreate(BlocBase bloc) {
@@ -7,7 +8,7 @@ class MyBlocObserver extends BlocObserver {
     debugPrint('onCreate -- ${bloc.runtimeType}');
   }
 
-@override
+  @override
   void onEvent(Bloc bloc, Object? event) {
     super.onEvent(bloc, event);
     debugPrint('onEvent -- ${bloc.runtimeType}, $event');

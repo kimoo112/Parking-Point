@@ -4,7 +4,9 @@ class EndPoint {
   static String carNumber = "Accounts/carnumber";
   static String register = "accounts/register";
   static String garages = "Garages";
-
+  static String pakyas = "Pakyas";
+  static String baskets = "Baskets";
+  static String bookings = "Bookings";
 }
 
 class ApiKeys {

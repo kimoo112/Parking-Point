@@ -1,4 +1,4 @@
-import '../../../core/api/end_ponits.dart';
+import '../../../core/api/end_points.dart';
 
 class SignInModel {
   final String email;
