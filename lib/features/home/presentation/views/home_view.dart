@@ -7,6 +7,7 @@ import 'package:parking_app/core/widgets/custom_btn.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/utils/app_colors.dart';
+import '../../../floors/data/cubit/pakyas_cubit.dart';
 import '../../data/cubit/garages_cubit.dart';
 import '../widgets/payment_container.dart';
 
@@ -26,6 +27,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     context.read<GaragesCubit>().fetchGaragesData();
+    context.read<PakyasCubit>().getPakyasData();
     _getLocation();
   }
 
@@ -55,15 +57,12 @@ class _HomeViewState extends State<HomeView> {
   }
 
   LatLng extractLatLngFromGoogleMapLink(String googleMapLink) {
-    // Regular expression to extract latitude and longitude from Google Maps link
     RegExp regex = RegExp(
-        r'https:\/\/www\.google\.com\/maps\/place\/@\s*(-?\d+\.\d+),\s*(-?\d+\.\d+)');
+        r'https:\/\/www\/maps\/place\/@\s*(-?\d+\.\d+),\s*(-?\d+\.\d+)');
 
-    // Match the regular expression against the link
     Match? match = regex.firstMatch(googleMapLink);
 
     if (match != null) {
-      // Extract latitude and longitude from the matched groups
       double latitude = double.parse(match.group(1)!);
       double longitude = double.parse(match.group(2)!);
       return LatLng(latitude, longitude);
@@ -96,18 +95,6 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             children: [
                               openTileLayer,
-                              PolylineLayer(
-                                polylines: [
-                                  Polyline(
-                                    points: [
-                                      LatLng(_latitude!, _longitude!),
-                                      LatLng(_latitude!, _longitude! + .1),
-                                      LatLng(_latitude!, _longitude! + .2),
-                                    ],
-                                    color: Colors.blue,
-                                  ),
-                                ],
-                              ),
                               MarkerLayer(
                                 markers: [
                                   Marker(
@@ -121,60 +108,11 @@ class _HomeViewState extends State<HomeView> {
                                       size: 60,
                                     ),
                                   ),
-                                  Marker(
-                                    point: LatLng(_latitude!, _longitude! + .1),
-                                    width: 80,
-                                    height: 80,
-                                    alignment: Alignment.centerLeft,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return const PaymentContainer();
-                                          },
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.blue,
-                                        size: 60,
-                                      ),
-                                    ),
-                                  ),
-                                  Marker(
-                                    point: LatLng(_latitude!, _longitude! + .2),
-                                    width: 80,
-                                    height: 80,
-                                    alignment: Alignment.centerLeft,
-                                    child: IconButton(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) {
-                                            return const PaymentContainer();
-                                          },
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.blue,
-                                        size: 60,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                 ],
                               ),
                             ],
                           ),
-                          const Positioned(
-                              left: 0,
-                              right: 0,
-                              bottom: 0,
-                              child: CustomBtn(
-                                text: 'Where To Park ?',
-                                marginSize: 16,
-                              ))
+                       
                         ],
                       );
                     } else if (state is GaragesDataLoaded) {
@@ -191,16 +129,23 @@ class _HomeViewState extends State<HomeView> {
                               PolylineLayer(
                                 polylines: [
                                   Polyline(
-                                    points: [
-                                      LatLng(_latitude!, _longitude!),
-                                                    if (state.garages.isNotEmpty)
-                    ...state.garages.map((garage) =>
-                        extractLatLngFromGoogleMapLink(garage.locationUrl)).toList(),
-                                    ],
-                                    strokeWidth: 5,
-                                    color: Colors.white,isDotted: true,
-                                    strokeCap :StrokeCap.round
-                                  ),
+                                      points: [
+                                        LatLng(_latitude!, _longitude!),
+                                        if (state.garages.isNotEmpty)
+                                          for (int index = 0;
+                                              index < state.garages.length;
+                                              index++)
+                                            LatLng(
+                                              _latitude! +
+                                                  state.garages[index].id,
+                                              _longitude! +
+                                                  state.garages[index].id,
+                                            ),
+                                      ],
+                                      strokeWidth: 5,
+                                      color: Colors.white,
+                                      isDotted: true,
+                                      strokeCap: StrokeCap.round),
                                 ],
                               ),
                               MarkerLayer(markers: [
@@ -218,8 +163,11 @@ class _HomeViewState extends State<HomeView> {
                                 ...List<Marker>.generate(
                                     state.garages.length,
                                     (index) => Marker(
-                                        point: extractLatLngFromGoogleMapLink(
-                                            state.garages[index].locationUrl),
+                                        point: LatLng(
+                                            _latitude! +
+                                                state.garages[index].id,
+                                            _longitude! +
+                                                state.garages[index].id),
                                         width: 80,
                                         height: 80,
                                         alignment: Alignment.centerLeft,
@@ -267,18 +215,7 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           children: [
                             openTileLayer,
-                            PolylineLayer(
-                              polylines: [
-                                Polyline(
-                                  points: [
-                                    LatLng(_latitude!, _longitude!),
-                                    LatLng(_latitude!, _longitude! + .1),
-                                    LatLng(_latitude!, _longitude! + .2),
-                                  ],
-                                  color: Colors.blue,
-                                ),
-                              ],
-                            ),
+                        
                             MarkerLayer(
                               markers: [
                                 Marker(
@@ -292,49 +229,7 @@ class _HomeViewState extends State<HomeView> {
                                     size: 60,
                                   ),
                                 ),
-                                Marker(
-                                  point: LatLng(_latitude!, _longitude! + .1),
-                                  width: 80,
-                                  height: 80,
-                                  alignment: Alignment.centerLeft,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return const PaymentContainer();
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.location_on_outlined,
-                                      color: Colors.blue,
-                                      size: 60,
-                                    ),
-                                  ),
-                                ),
-                                Marker(
-                                  point: LatLng(_latitude!, _longitude! + .2),
-                                  width: 80,
-                                  height: 80,
-                                  alignment: Alignment.centerLeft,
-                                  child: IconButton(
-                                    onPressed: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return const PaymentContainer();
-                                        },
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.location_on_outlined,
-                                      color: Colors.blue,
-                                      size: 60,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
                             ),
                           ],
                         ),
@@ -358,6 +253,6 @@ class _HomeViewState extends State<HomeView> {
 }
 
 TileLayer get openTileLayer => TileLayer(
-      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-      userAgentPackageName: 'com.example.parking_app',
+       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        userAgentPackageName: 'com.example.app',
     );

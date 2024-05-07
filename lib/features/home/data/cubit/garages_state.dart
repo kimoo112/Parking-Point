@@ -8,7 +8,7 @@ final class GaragesInitial extends GaragesState {}
 final class GaragesDataLoading extends GaragesState {}
 
 final class GaragesDataLoaded extends GaragesState {
-    final List<Garage> garages;
+  final List<Garage> garages;
 
   GaragesDataLoaded(this.garages);
 }

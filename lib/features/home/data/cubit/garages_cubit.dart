@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:parking_app/core/api/end_ponits.dart';
+import 'package:parking_app/core/api/end_points.dart';
 
 import '../../../../core/api/api_consumer.dart';
 import '../model/garage_model.dart';
@@ -30,5 +30,4 @@ class GaragesCubit extends Cubit<GaragesState> {
       emit(GaragesDataFailure(errMessage: errorMessage));
     }
   }
- 
 }
