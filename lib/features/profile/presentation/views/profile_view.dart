@@ -7,7 +7,7 @@ import 'package:parking_app/core/utils/app_colors.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
 import 'package:parking_app/core/widgets/custom_btn.dart';
 
-import '../../../../core/api/end_ponits.dart';
+import '../../../../core/api/end_points.dart';
 import '../../../../core/cache/cache_helper.dart';
 
 class ProfileView extends StatelessWidget {
@@ -105,8 +105,7 @@ class ProfileView extends StatelessWidget {
                               child: CustomBtn(
                                 text: 'Log Out',
                                 onPressed: () {
-                                  CacheHelper()
-                                      .removeData(key: ApiKeys.token);
+                                  CacheHelper().removeData(key: ApiKeys.token);
                                   GoRouter.of(context)
                                       .pushReplacement(signInView);
                                 },

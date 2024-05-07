@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:parking_app/core/utils/app_assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_colors.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
+import 'package:parking_app/features/floors/data/cubit/pakyas_cubit.dart';
+import 'package:parking_app/features/floors/data/models/pakyas_model.dart';
 import 'package:parking_app/features/floors/presentation/widgets/tab_bar_widget.dart';
 
+import '../../../../core/functions/navigation.dart';
 import '../widgets/vertical_divider_widget.dart';
 
 class FloorsView extends StatefulWidget {
@@ -30,101 +34,123 @@ class _FloorsViewState extends State<FloorsView>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TabBarWidget(tabController: _tabController),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Entrance',
-                style: CustomTextStyles.openSansBoldStyle20,
-              ),
+    return BlocConsumer<PakyasCubit, PakyasState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        List<Pakyas> pakyasList = [];
+        if (state is PakyasDataLoaded) {
+          pakyasList = state.pakyas;
+        }
+        return Scaffold(
+          extendBody: true,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            scrolledUnderElevation: 0,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TabBarWidget(tabController: _tabController),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Entrance',
+                    style: CustomTextStyles.openSansBoldStyle20,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Divider(
+                  thickness: 15,
+                ),
+                state is PakyasDataLoading
+                    ? const CircularProgressIndicator()
+                    : GridView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                        ),
+                        itemCount: pakyasList.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _confirmPaymentDialog(
+                                        context, pakyasList, index, () {
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                      customNavigate(context, paymentView);
+                                    });
+                                  },
+                                  child: Container(
+                                    width: 111,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.primaryColor
+                                          .withOpacity(.2),
+                                      borderRadius: BorderRadius.circular(15),
+                                      border: Border.all(
+                                        width: 2,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      pakyasList[index].name!,
+                                      style:
+                                          CustomTextStyles.openSansBoldStyle16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              if (index % 2 ==
+                                  0) // Show VerticalDivider if index is not even
+                                const VerticalDividerWidget(),
+                            ],
+                          );
+                        },
+                      ),
+                const Divider(
+                  thickness: 15,
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            _floorParking(),
-            _floorParking(null, 'A04'),
-            _floorParking('A05'),
-            _floorParking(),
-            _floorParking('A09'),
-            _floorParking('A11'),
-            _floorParking('A13'),
-            _floorParking('A15'),
-            _floorParking(null , 'A16'),
-            _floorParking('A17'),
-            _floorParking('A19'),
-            _floorParking('A21'),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-  Widget _floorParking([String? firstFloorName, String? secondFloorName]) {
-    return Column(
-      children: [
-        const VerticalDividerWidget(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            firstFloorName == null
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                        width: 111,
-                      height: 50,child: Image.asset(Assets.imagesFloorCar)),
-                  )
-                : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      width: 111,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 2, color: AppColors.primaryColor)),
-                      alignment: Alignment.center,
-                      child: Text(
-                        firstFloorName ,
-                        style: CustomTextStyles.openSansBoldStyle16,
-                      ),
-                    ),
-                ),
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                  border: Border.all(width: .5, color: AppColors.darkGrey)),
+  Future<dynamic> _confirmPaymentDialog(BuildContext context,
+      List<Pakyas> pakyasList, int index, void Function()? onPressed) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirm Booking'),
+          content: Text(
+              'Are you sure you want to book ${pakyasList[index].name!} floor in ${pakyasList[index].garage!} garage?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: onPressed,
+              child: const Text('Yes'),
             ),
-            secondFloorName == null
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                         width: 111,
-                      height: 50,child: Image.asset(Assets.imagesFloorCar)),
-                  )
-                : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      width: 111,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: AppColors.primaryColor.withOpacity(.2),
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                              width: 2, color: AppColors.primaryColor)),
-                      alignment: Alignment.center,
-                      child: Text(
-                        secondFloorName ,
-                        style: CustomTextStyles.openSansBoldStyle16,
-                      ),
-                    ),
-                ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('No'),
+            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
