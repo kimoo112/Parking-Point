@@ -3,6 +3,7 @@ const searchView = "/searchView";
 const floorsView = "/floorsView";
 const paymentView = "/paymentView";
 const paymentSuccessView = "/paymentSuccessView";
+const cardView = "/cardView";
 
 const timerView = "/timerView";
 const homeNavbar = "/homeNavbar";

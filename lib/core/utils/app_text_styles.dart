@@ -63,6 +63,12 @@ abstract class CustomTextStyles {
     color: AppColors.black,
     fontFamily: "Open Sans",
   );
+    static final openSansBoldStyle16Black = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.black,
+    fontFamily: "Open Sans",
+  );
   static final openSansBoldStyle12Blue = TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.bold,

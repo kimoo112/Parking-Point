@@ -4,6 +4,7 @@ import 'package:parking_app/features/auth/presentation/views/sign_up_view.dart';
 import 'package:parking_app/features/floors/presentation/views/floors_view.dart';
 import 'package:parking_app/features/home/presentation/views/home_navbar.dart';
 import 'package:parking_app/features/home/presentation/views/home_view.dart';
+import 'package:parking_app/features/payment/presentation/views/credit_card.dart';
 import 'package:parking_app/features/payment/presentation/views/payment_success_view.dart';
 import 'package:parking_app/features/search/presentation/views/search_view.dart';
 import 'package:parking_app/features/timer/presentation/views/timer_view.dart';
@@ -58,6 +59,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: paymentSuccessView,
       builder: (context, state) => const PaymentSuccessView(),
+    ),
+        GoRoute(
+      path: cardView,
+      builder: (context, state) => const CardScreen(),
     ),
   ],
 );
