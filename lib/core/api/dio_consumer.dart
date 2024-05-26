@@ -11,22 +11,7 @@ class DioConsumer extends ApiConsumer {
   DioConsumer({required this.dio}) {
     dio.options.baseUrl = EndPoint.baseUrl;
     dio.interceptors.add(ApiInterceptor());
-    dio.interceptors.add(InterceptorsWrapper(
-  onResponse: (response, handler) {
-    if (response.statusCode == 307) {
-      // Extract the new URL from the response headers and resend the request
-      String? newUrl = response.headers.value('location');
-      // Resend the request to the new URL
-      dio.get(newUrl!).then((newResponse) {
-        handler.resolve(newResponse);
-      }).catchError((error) {
-        handler.reject(error);
-      });
-      return ; // Prevent the response from being processed further
-    }
-    return handler.next(response);
-  },
-));
+
     dio.interceptors.add(LogInterceptor(
       request: true,
       requestHeader: true,
@@ -66,6 +51,7 @@ class DioConsumer extends ApiConsumer {
         path,
         data: data,
         queryParameters: queryParameters,
+        options: Options(headers: headers),
       );
 
       return response.data;

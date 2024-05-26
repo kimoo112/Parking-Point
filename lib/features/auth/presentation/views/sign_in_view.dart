@@ -145,9 +145,14 @@ class _SignInViewState extends State<SignInView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Forgot Password ?',
-                    style: CustomTextStyles.openSans400style16Blue,
+                  TextButton(
+                    onPressed: () {
+                      customNavigate(context, forgetPasswordView);
+                    },
+                    child: Text(
+                      'Forgot Password ?',
+                      style: CustomTextStyles.openSans400style16Blue,
+                    ),
                   ),
                 ],
               ),

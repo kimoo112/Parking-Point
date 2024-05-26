@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/api/api_consumer.dart';
 import '../../../core/api/end_points.dart';
@@ -13,16 +15,15 @@ class AuthCubit extends Cubit<AuthState> {
   final ApiConsumer api;
   String carNumber = '';
   TextEditingController signUpName = TextEditingController();
-  //Sign up phone number
+  ImagePicker picker = ImagePicker();
+  String imagePath = '';
   TextEditingController signUpPhoneNumber = TextEditingController();
-  //Sign up email
   TextEditingController signUpEmail = TextEditingController();
   TextEditingController signUpAge = TextEditingController();
   TextEditingController signUpPhone = TextEditingController();
   TextEditingController signUpCarNumber = TextEditingController();
   TextEditingController signInEmail = TextEditingController();
   TextEditingController signInPassword = TextEditingController();
-  //Sign up password
   TextEditingController signUpPassword = TextEditingController();
   signUp(context) async {
     emit(SignUpLoading());
@@ -64,5 +65,49 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(SignInFailure(errMessage: "Check The Fields Again "));
     }
+  }
+
+  getCarNumber() async {
+    try {
+      emit(GetCarNumberLoading());
+      final response = await api.get(
+          'https://www.parking.somee.com/api/Accounts/carnumber',
+          headers: {
+            'Authorization':
+                'Bearer ${CacheHelper().getData(key: ApiKeys.token)}'
+          });
+
+      carNumber = response;
+      debugPrint("Car Number is : $carNumber");
+      CacheHelper().saveData(key: ApiKeys.carNumber, value: carNumber);
+      emit(GetCarNumberSuccessfully());
+    } catch (e) {
+      debugPrint(e.toString());
+      emit(GetCarNumberFailure());
+    }
+  }
+
+  Future<void> pickImageFromGallery() async {
+    emit(ProfileImageEmpty());
+    try {
+      final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        imagePath = pickedFile.path;
+        CacheHelper().saveData(key: "${ApiKeys.token} Image", value: imagePath);
+        loadImage();
+        emit(ProfileImagePicked(imagePath: imagePath));
+      } else {}
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  loadImage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (CacheHelper().getData(key: "${ApiKeys.token} Image") != null) {
+      imagePath = CacheHelper().getData(key: "${ApiKeys.token} Image")!;
+      emit(ProfileImagePicked(imagePath: imagePath));
+    } else {}
   }
 }

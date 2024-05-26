@@ -1,6 +1,6 @@
 class Assets {
   Assets._();
-
+  
   /// Assets for imagesAppLogo
   /// assets/images/app_logo.png
   static const String imagesAppLogo = "assets/images/app_logo.png";
@@ -8,6 +8,18 @@ class Assets {
   /// Assets for imagesFloorCar
   /// assets/images/floor_car.png
   static const String imagesFloorCar = "assets/images/floor_car.png";
+
+  /// Assets for imagesForgerPassword
+  /// assets/images/forgerPassword.png
+  static const String imagesForgerPassword = "assets/images/forgerPassword.png";
+
+  /// Assets for imagesGoogleLogo
+  /// assets/images/googleLogo.png
+  static const String imagesGoogleLogo = "assets/images/googleLogo.png";
+
+  /// Assets for imagesMasterCardLogo
+  /// assets/images/masterCardLogo.png
+  static const String imagesMasterCardLogo = "assets/images/masterCardLogo.png";
 
   /// Assets for imagesOnboarding1
   /// assets/images/onboarding_1.png
@@ -27,10 +39,10 @@ class Assets {
 
   /// Assets for imagesProfilePicture
   /// assets/images/profile_picture.png
-  static const String imagesProfilePicture =
-      "assets/images/profile_picture.png";
+  static const String imagesProfilePicture = "assets/images/profile_picture.png";
 
   /// Assets for imagesSearchImage
   /// assets/images/search_image.png
   static const String imagesSearchImage = "assets/images/search_image.png";
 }
+

@@ -16,6 +16,8 @@ final class SignUpFailure extends AuthState {
 }
 
 final class GetCarNumberSuccessfully extends AuthState {}
+final class GetCarNumberLoading extends AuthState {}
+final class GetCarNumberFailure extends AuthState {}
 
 final class SignInLoading extends AuthState {}
 
@@ -25,4 +27,13 @@ final class SignInFailure extends AuthState {
   final String errMessage;
 
   SignInFailure({required this.errMessage});
+}
+
+final class ProfileImageEmpty extends AuthState {}
+final class ProfileImageLoading extends AuthState {}
+
+final class ProfileImagePicked extends AuthState {
+  final String imagePath;
+
+  ProfileImagePicked({required this.imagePath});
 }

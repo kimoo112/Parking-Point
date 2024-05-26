@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:parking_app/core/routes/routes.dart';
+import 'package:parking_app/features/auth/presentation/views/forget_password_view.dart';
 import 'package:parking_app/features/auth/presentation/views/sign_up_view.dart';
 import 'package:parking_app/features/floors/presentation/views/floors_view.dart';
 import 'package:parking_app/features/home/presentation/views/home_navbar.dart';
@@ -33,6 +34,10 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const SignInView(),
     ),
     GoRoute(
+      path: forgetPasswordView,
+      builder: (context, state) => const ForgetPasswordView(),
+    ),
+    GoRoute(
       path: homeView,
       builder: (context, state) => const HomeView(),
     ),
@@ -60,7 +65,7 @@ final GoRouter router = GoRouter(
       path: paymentSuccessView,
       builder: (context, state) => const PaymentSuccessView(),
     ),
-        GoRoute(
+    GoRoute(
       path: cardView,
       builder: (context, state) => const CardScreen(),
     ),
