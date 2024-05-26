@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:parking_app/features/floors/presentation/views/floors_view.dart';
 import 'package:parking_app/features/home/presentation/views/home_view.dart';
 import 'package:parking_app/features/profile/presentation/views/profile_view.dart';
 import 'package:parking_app/features/search/presentation/views/search_view.dart';
@@ -12,7 +11,6 @@ PersistentTabController _controller = PersistentTabController();
 
 class HomeNavBarWidget extends StatelessWidget {
   const HomeNavBarWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
@@ -41,7 +39,6 @@ List<Widget> _buildScreens() {
     const HomeView(),
     const SearchView(),
     const TimerView(),
-
     const ProfileView(),
   ];
 }
@@ -69,7 +66,6 @@ List<PersistentBottomNavBarItem> _navBarsItems() {
         color: AppColors.darkGrey,
       ),
     ),
-
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.person),
       inactiveIcon: Icon(

@@ -1,9 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:parking_app/core/functions/navigation.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/widgets/custom_btn.dart';
+import 'package:parking_app/features/auth/cubit/auth_cubit.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../core/utils/app_colors.dart';
@@ -28,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     context.read<GaragesCubit>().fetchGaragesData();
     context.read<PakyasCubit>().getPakyasData();
+    context.read<AuthCubit>().getCarNumber();
     _getLocation();
   }
 
@@ -57,8 +62,8 @@ class _HomeViewState extends State<HomeView> {
   }
 
   LatLng extractLatLngFromGoogleMapLink(String googleMapLink) {
-    RegExp regex = RegExp(
-        r'https:\/\/www\/maps\/place\/@\s*(-?\d+\.\d+),\s*(-?\d+\.\d+)');
+    RegExp regex =
+        RegExp(r'https:\/\/www\/maps\/place\/@\s*(-?\d+\.\d+),\s*(-?\d+\.\d+)');
 
     Match? match = regex.firstMatch(googleMapLink);
 
@@ -103,16 +108,15 @@ class _HomeViewState extends State<HomeView> {
                                     height: 80,
                                     alignment: Alignment.centerLeft,
                                     child: const Icon(
-                                      Icons.location_on_outlined,
+                                      CupertinoIcons.location_solid,
                                       color: Colors.red,
                                       size: 60,
                                     ),
                                   ),
-                                 ],
+                                ],
                               ),
                             ],
                           ),
-                       
                         ],
                       );
                     } else if (state is GaragesDataLoaded) {
@@ -126,28 +130,6 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             children: [
                               openTileLayer,
-                              PolylineLayer(
-                                polylines: [
-                                  Polyline(
-                                      points: [
-                                        LatLng(_latitude!, _longitude!),
-                                        if (state.garages.isNotEmpty)
-                                          for (int index = 0;
-                                              index < state.garages.length;
-                                              index++)
-                                            LatLng(
-                                              _latitude! +
-                                                  state.garages[index].id,
-                                              _longitude! +
-                                                  state.garages[index].id,
-                                            ),
-                                      ],
-                                      strokeWidth: 5,
-                                      color: Colors.white,
-                                      isDotted: true,
-                                      strokeCap: StrokeCap.round),
-                                ],
-                              ),
                               MarkerLayer(markers: [
                                 Marker(
                                   point: LatLng(_latitude!, _longitude!),
@@ -155,19 +137,24 @@ class _HomeViewState extends State<HomeView> {
                                   height: 80,
                                   alignment: Alignment.centerLeft,
                                   child: const Icon(
-                                    Icons.location_on_outlined,
+                                    CupertinoIcons.location_solid,
                                     color: Colors.red,
-                                    size: 60,
+                                    size: 40,
                                   ),
                                 ),
                                 ...List<Marker>.generate(
                                     state.garages.length,
                                     (index) => Marker(
                                         point: LatLng(
-                                            _latitude! +
-                                                state.garages[index].id,
-                                            _longitude! +
-                                                state.garages[index].id),
+                                          _latitude! +
+                                              (-0.2 *
+                                                  (state.garages[index].id +
+                                                      1)),
+                                          _longitude! +
+                                              (-0.2 *
+                                                  (state.garages[index].id +
+                                                      1)),
+                                        ),
                                         width: 80,
                                         height: 80,
                                         alignment: Alignment.centerLeft,
@@ -185,21 +172,24 @@ class _HomeViewState extends State<HomeView> {
                                               },
                                             );
                                           },
-                                          icon: const Icon(
-                                            Icons.location_on_outlined,
-                                            color: Colors.blue,
-                                            size: 60,
+                                          icon: Icon(
+                                            CupertinoIcons.location_solid,
+                                            color: AppColors.primaryColor,
+                                            size: 40,
                                           ),
                                         )))
                               ])
                             ],
                           ),
-                          const Positioned(
+                          Positioned(
                               left: 0,
                               right: 0,
                               bottom: 0,
                               child: CustomBtn(
                                 text: 'Where To Park ?',
+                                onPressed: () {
+                                  customNavigate(context, searchView);
+                                },
                                 marginSize: 16,
                               ))
                         ],
@@ -215,7 +205,6 @@ class _HomeViewState extends State<HomeView> {
                           ),
                           children: [
                             openTileLayer,
-                        
                             MarkerLayer(
                               markers: [
                                 Marker(
@@ -224,35 +213,43 @@ class _HomeViewState extends State<HomeView> {
                                   height: 80,
                                   alignment: Alignment.centerLeft,
                                   child: const Icon(
-                                    Icons.location_on_outlined,
+                                    CupertinoIcons.location_solid,
                                     color: Colors.red,
                                     size: 60,
                                   ),
                                 ),
-                                ],
+                              ],
                             ),
                           ],
                         ),
-                        const Positioned(
+                        Positioned(
                             left: 0,
                             right: 0,
                             bottom: 0,
                             child: CustomBtn(
                               text: 'Where To Park ?',
                               marginSize: 16,
+                              onPressed: () {
+                                customNavigate(context, searchView);
+                              },
                             ))
                       ],
                     );
                   },
                 )
-              : const Center(
-                  child: Text('Failed to obtain location.'),
+              : Center(
+                  child: TextButton(
+                    onPressed: () {
+                      _getLocation();
+                    },
+                    child: const Text('Failed to obtain location.'),
+                  ),
                 ),
     );
   }
 }
 
 TileLayer get openTileLayer => TileLayer(
-       urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-        userAgentPackageName: 'com.example.app',
+      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      userAgentPackageName: 'com.example.app',
     );

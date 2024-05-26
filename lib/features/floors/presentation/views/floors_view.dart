@@ -68,6 +68,7 @@ class _FloorsViewState extends State<FloorsView>
                 state is PakyasDataLoading
                     ? const CircularProgressIndicator()
                     : GridView.builder(
+                        physics: const BouncingScrollPhysics(),
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         gridDelegate:
