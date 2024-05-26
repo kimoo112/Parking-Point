@@ -5,6 +5,7 @@ import 'package:parking_app/core/api/dio_consumer.dart';
 import 'package:parking_app/core/cache/cache_helper.dart';
 import 'package:parking_app/features/auth/cubit/auth_cubit.dart';
 import 'package:parking_app/features/home/data/cubit/garages_cubit.dart';
+import 'package:parking_app/features/timer/presentation/cubit/timer_cubit.dart';
 
 import 'core/routes/app_router.dart';
 import 'core/utils/bloc_observer.dart';
@@ -30,6 +31,8 @@ class ParkingApp extends StatelessWidget {
         BlocProvider(
           create: (context) => GaragesCubit(DioConsumer(dio: Dio())),
         ),
+          BlocProvider(
+                create: (context) => TimerCubit(),),
         BlocProvider(
           create: (context) => PakyasCubit(DioConsumer(dio: Dio())),
         )

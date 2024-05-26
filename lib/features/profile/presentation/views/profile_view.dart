@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parking_app/core/functions/navigation.dart';
 import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_assets.dart';
 import 'package:parking_app/core/utils/app_colors.dart';
@@ -9,9 +13,22 @@ import 'package:parking_app/core/widgets/custom_btn.dart';
 
 import '../../../../core/api/end_points.dart';
 import '../../../../core/cache/cache_helper.dart';
+import '../../../auth/cubit/auth_cubit.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthCubit>().loadImage();
+    context.read<AuthCubit>().getCarNumber();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,41 +44,126 @@ class ProfileView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Stack(
-              alignment: AlignmentDirectional.bottomEnd,
+            BlocConsumer<AuthCubit, AuthState>(
+              listener: (context, state) {},
+              builder: (context, state) {
+                return Stack(
+                  alignment: AlignmentDirectional.bottomEnd,
+                  children: [
+                    CircleAvatar(
+                        radius: 65,
+                        backgroundImage: context.read<AuthCubit>().imagePath ==
+                                ''
+                            ? const AssetImage(Assets.imagesProfilePicture)
+                            : FileImage(
+                                    File(context.read<AuthCubit>().imagePath))
+                                as ImageProvider),
+                    FloatingActionButton(
+                      backgroundColor: AppColors.primaryColor,
+                      onPressed: () {
+                        context.read<AuthCubit>().pickImageFromGallery();
+                      },
+                      mini: true,
+                      child: Icon(
+                        Icons.edit,
+                        color: AppColors.offWhite,
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: 20),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const CircleAvatar(
-                  radius: 65,
-                  backgroundImage: AssetImage(Assets.imagesProfilePicture),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    'Name',
+                    style: CustomTextStyles.openSans400style16,
+                  ),
                 ),
-                FloatingActionButton(
-                  backgroundColor: AppColors.primaryColor,
-                  onPressed: () {},
-                  mini: true,
-                  child: Icon(
-                    Icons.edit,
-                    color: AppColors.offWhite,
+                Container(
+                  height: 40,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Text(
+                    '${CacheHelper().getDataString(key: ApiKeys.name)}',
+                    style: CustomTextStyles.openSansBoldStyle16,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
-            Text(
-              'My Name ',
-              style: CustomTextStyles.openSansBoldStyle20,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    'Email',
+                    style: CustomTextStyles.openSans400style16,
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Text(
+                    '${CacheHelper().getDataString(key: ApiKeys.email)}',
+                    style: CustomTextStyles.openSansBoldStyle16,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              '${CacheHelper().getDataString(key: ApiKeys.name)}',
-              style: CustomTextStyles.openSansBoldStyle20Blue,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    'Car Number',
+                    style: CustomTextStyles.openSans400style16,
+                  ),
+                ),
+                Container(
+                  height: 40,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  margin: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Text(
+                    CacheHelper().getDataString(key: ApiKeys.carNumber) ??
+                        context.read<AuthCubit>().carNumber,
+                    style: CustomTextStyles.openSansBoldStyle16,
+                  ),
+                ),
+              ],
             ),
-            const Divider(),
-            Text(
-              'My Email ',
-              style: CustomTextStyles.openSansBoldStyle20,
-            ),
-            Text(
-              '${CacheHelper().getDataString(key: ApiKeys.email)}',
-              style: CustomTextStyles.openSansBoldStyle20Blue,
+            ListTile(
+              leading: const Icon(CupertinoIcons.creditcard),
+              title: Text(
+                'Payment Info',
+                style: CustomTextStyles.openSansBoldStyle16Black,
+              ),
+              trailing: Icon(Icons.arrow_circle_right_outlined,
+                  color: AppColors.primaryColor),
+              onTap: () {
+                customNavigate(context, cardView);
+              },
             ),
             CustomBtn(
                 text: 'Logout'.toUpperCase(),
@@ -105,7 +207,7 @@ class ProfileView extends StatelessWidget {
                               child: CustomBtn(
                                 text: 'Log Out',
                                 onPressed: () {
-                                  CacheHelper().removeData(key: ApiKeys.token);
+                                  CacheHelper().clearData();
                                   GoRouter.of(context)
                                       .pushReplacement(signInView);
                                 },
