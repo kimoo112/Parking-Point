@@ -54,5 +54,10 @@
 
  <img src="https://github.com/kimoo112/Parking-Point/assets/130873071/ac23e647-ce79-4a25-ac34-f0df06f67010" alt="Floors Screen">
 
+   <h3>📅 Booking Screen</h3>
+  <p>The booking screen lets you reserve a specific floor and set the duration for your parking. You can also handle payments securely through various payment gateways.</p>
+ <img src="https://github.com/kimoo112/Parking-Point/assets/130873071/7b633c79-226c-4031-83f8-e2d5fffa169f" alt="Booking Screens">
+  
+
 </body>
 </html>
