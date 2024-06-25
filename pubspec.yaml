@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.5
+  flutter_launcher_icons: ^0.13.1
   flutter_map: ^6.1.0
   flutter_paypal_payment: ^1.0.6
   flutterme_credit_card: ^1.0.2
@@ -32,6 +33,11 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/search_image.png"
 
 flutter:
 
