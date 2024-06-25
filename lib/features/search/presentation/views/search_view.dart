@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parking_app/core/functions/navigation.dart';
+import 'package:parking_app/core/routes/routes.dart';
 import 'package:parking_app/core/utils/app_text_styles.dart';
 import 'package:parking_app/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:parking_app/features/home/data/cubit/garages_cubit.dart';
@@ -42,11 +44,6 @@ class _SearchViewState extends State<SearchView> {
                 ),
               ],
             ),
-            // Padding(
-            //   padding: const EdgeInsets.all(16.0),
-            //   child: Text('Parking Points (${searchedList.length})',
-            //       style: CustomTextStyles.openSansBoldStyle20Blue),
-            // ),
             BlocConsumer<GaragesCubit, GaragesState>(
               listener: (context, state) {},
               builder: (context, state) {
@@ -91,6 +88,9 @@ class _SearchViewState extends State<SearchView> {
                                               state.garages[index].hourPrice,
                                           parkingName:
                                               state.garages[index].name,
+                                              onPressed: index == 1 ? (){
+customNavigate(context, closedFloorsView);
+                                              } : null
                                         );
                                       },
                                     );

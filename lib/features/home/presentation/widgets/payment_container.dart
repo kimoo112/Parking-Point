@@ -9,10 +9,11 @@ class PaymentContainer extends StatelessWidget {
   const PaymentContainer({
     super.key,
     this.parkingName,
-    this.hourPrice,
+    this.hourPrice, this.onPressed,
   });
   final String? parkingName;
   final double? hourPrice;
+  final void Function()? onPressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -81,7 +82,7 @@ class PaymentContainer extends StatelessWidget {
             const SizedBox(height: 22),
             CustomBtn(
               text: 'Pay Now'.toUpperCase(),
-              onPressed: () {
+              onPressed:onPressed?? () {
                 customNavigate(context, floorsView);
               },
             )
@@ -93,6 +94,7 @@ class PaymentContainer extends StatelessWidget {
 
   SingleChildScrollView _priceWeakWidget() {
     return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
       child: Row(
         children: [
           Container(

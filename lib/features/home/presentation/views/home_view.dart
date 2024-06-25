@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
     context.read<GaragesCubit>().fetchGaragesData();
     context.read<PakyasCubit>().getPakyasData();
+    context.read<PakyasCubit>().getSensors();
     context.read<AuthCubit>().getCarNumber();
     _getLocation();
   }

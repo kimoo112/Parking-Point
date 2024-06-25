@@ -1,6 +1,7 @@
 const homeView = "/homeView";
 const searchView = "/searchView";
 const floorsView = "/floorsView";
+const closedFloorsView = "/closedFloorsView";
 const paymentView = "/paymentView";
 const paymentSuccessView = "/paymentSuccessView";
 const cardView = "/cardView";

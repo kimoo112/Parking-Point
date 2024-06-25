@@ -18,3 +18,14 @@ final class PakyasDataFailure extends PakyasState {
 
   PakyasDataFailure({required this.errMessage});
 }
+
+final class SensorsLoading extends PakyasState {}
+final class SensorsLoaded extends PakyasState {
+
+}
+final class SensorsFailure extends PakyasState {
+  final String errMessage;
+
+  SensorsFailure({required this.errMessage});
+
+}

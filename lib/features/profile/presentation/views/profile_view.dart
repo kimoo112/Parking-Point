@@ -147,7 +147,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   child: Text(
                     CacheHelper().getDataString(key: ApiKeys.carNumber) ??
-                        context.read<AuthCubit>().carNumber,
+                        """ESSL91""",
                     style: CustomTextStyles.openSansBoldStyle16,
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/api/api_consumer.dart';
 import '../../../core/api/end_points.dart';
@@ -68,8 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   getCarNumber() async {
-    try {
-      emit(GetCarNumberLoading());
+    try {      emit(GetCarNumberLoading());
       final response = await api.get(
           'https://www.parking.somee.com/api/Accounts/carnumber',
           headers: {
@@ -82,7 +80,7 @@ class AuthCubit extends Cubit<AuthState> {
       CacheHelper().saveData(key: ApiKeys.carNumber, value: carNumber);
       emit(GetCarNumberSuccessfully());
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint(" the car number not loaded because $e");
       emit(GetCarNumberFailure());
     }
   }
@@ -104,7 +102,6 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   loadImage() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (CacheHelper().getData(key: "${ApiKeys.token} Image") != null) {
       imagePath = CacheHelper().getData(key: "${ApiKeys.token} Image")!;
       emit(ProfileImagePicked(imagePath: imagePath));
