@@ -19,23 +19,22 @@ class FloorsView extends StatefulWidget {
 }
 
 class _FloorsViewState extends State<FloorsView> {
+  bool? isEmpty;
   @override
   void initState() {
     super.initState();
-    final pakyasCubit = context.read<PakyasCubit>();
-    if (pakyasCubit.state is PakyasInitial && pakyasCubit.emptySensor == -1) {
-      print("empty");
+    if (context.read<PakyasCubit>().emptySensor == -1) {
+      isEmpty = true;
+    } else {
+        isEmpty = false;
+
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PakyasCubit, PakyasState>(
-      listener: (context, state) {
-        if (state is PakyasDataLoaded && state.pakyas.isEmpty) {
-          _showGarageClosedDialog(context);
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         List<Pakyas> pakyasList = [];
         int irSensor1 = -1;
@@ -53,10 +52,13 @@ class _FloorsViewState extends State<FloorsView> {
 
         return Scaffold(
           extendBody: true,
-          extendBodyBehindAppBar: true,
+          extendBodyBehindAppBar: !isEmpty!,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor:isEmpty!?Colors.red: Colors.transparent,
             elevation: 0,
+            title: isEmpty!
+                ? const Text("The Garage is disconnected ")
+                : null,
             scrolledUnderElevation: 0,
           ),
           body: SingleChildScrollView(
@@ -101,7 +103,7 @@ class _FloorsViewState extends State<FloorsView> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GestureDetector(
-                              onTap: () {
+                              onTap:isEmpty!?(){}: () {
                                 _confirmPaymentDialog(
                                     context, pakyasList, index, () {
                                   Navigator.of(context).pop();
